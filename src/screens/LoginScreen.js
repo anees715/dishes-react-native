@@ -5,6 +5,7 @@ import {
     StyleSheet, 
     TextInput 
   } from 'react-native';
+import Button from '../elements/Button'
 
 export default class LoginScreen extends Component{
   state = {
@@ -15,18 +16,19 @@ export default class LoginScreen extends Component{
   render(){
     return(
       <View style={styles.container}>
-        <Text>Login Screen</Text>
-        <View>
+        <Text>Login</Text>
+        <View style={styles.inputContainer}>
           <TextInput style={styles.input}
           placeholder='User Name'
           underlineColorAndroid='transparent' />
         </View>
-        <View>
+        <View style={styles.inputContainer}>
           <TextInput style={styles.input}
           placeholder='Password'
           secureTextEntry={true}
           underlineColorAndroid='transparent' />
         </View>
+        <Button text="Sign In" />
       </View>
     )
   }
@@ -38,5 +40,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  inputContainer: {
+    borderWidth: 1,
+    borderRadius: 30,
+    width: 250,
+    height: 45,
+    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 10
   }
 })
