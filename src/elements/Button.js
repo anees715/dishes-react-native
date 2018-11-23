@@ -9,7 +9,7 @@ export default (props) => {
   const { text, onPressButton} = props;
   return(
     <TouchableHighlight style={styles.button} onPress={onPressButton}>
-      <Text>{text}</Text>
+      <Text style={{color: '#ffffff'}}>{text}</Text>
     </TouchableHighlight>
   )
 }
@@ -18,9 +18,9 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    minWidth: 200,
+    minWidth: 300,
     backgroundColor: '#f39c12',
-    height: 53,
+    height: 50,
     borderRadius: 30
   }
 })
