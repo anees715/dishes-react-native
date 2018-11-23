@@ -1,9 +1,26 @@
+import React from 'react';
 import { createStackNavigator, createDrawerNavigator, createBottomTabNavigator} from 'react-navigation';
 import HomeScreen from '../screens/HomeScreen';
+import { Entypo } from '@expo/vector-icons';
+import { DrawerActions } from 'react-navigation-drawer';
 
+const drawerIcon = (navigation, icon) => (
+  <Entypo
+    name={icon}
+    style={{marginLeft: 15}}
+    size={30} 
+    color="#ffffff"
+    onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+  />
+)
 const mainStack = createStackNavigator(
   { 
-  HomeScreen: HomeScreen
+    HomeScreen: {
+      screen: HomeScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: drawerIcon(navigation, 'menu')
+      })
+    }
   },
   {
     defaultNavigationOptions: {
@@ -13,10 +30,8 @@ const mainStack = createStackNavigator(
       headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
-        textAlign: 'center',
-        alignSelf: 'center',
         color: '#ffffff'
-      },
+      }
     },
   }
 );
@@ -26,5 +41,5 @@ const tabStack = createBottomTabNavigator({
 })
 
 export default createDrawerNavigator({
-  mainStack: tabStack
+  Home: tabStack
 })
