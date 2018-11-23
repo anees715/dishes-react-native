@@ -1,6 +1,14 @@
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createDrawerNavigator, createBottomTabNavigator} from 'react-navigation';
 import HomeScreen from '../screens/HomeScreen';
 
-export default createStackNavigator({ 
+const mainStack = createStackNavigator({ 
   HomeScreen: HomeScreen 
 });
+
+const tabStack = createBottomTabNavigator({
+  Home: {screen: mainStack}
+})
+
+export default createDrawerNavigator({
+  mainStack: tabStack
+})
