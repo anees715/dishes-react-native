@@ -6,36 +6,46 @@ import {
     TextInput 
   } from 'react-native';
 import Button from '../elements/Button'
+import { loginUser } from '../services/AuthService';
 
 export default class LoginScreen extends Component{
-  state = {
-    userName: "",
-    password: ""
+  constructor(props){
+    super(props);
+    this.state = {
+      userName: "",
+      password: ""
+    }
+    this.handleUserLogin = this.handleUserLogin.bind(this);
   }
-
-  loginUser(){
-
+  async handleUserLogin(){
+    const { userName, password} = this.state
+    let loginStatus = await loginUser(userName, password)
+    if(loginStatus.success){
+      this.props.navigation.navigate('HomeScreen')
+    }
+    else{
+      alert("Fail")
+    }
   }
 
   render(){
     return(
       <View style={styles.container}>
-        <Text>Login</Text>
-        <View style={styles.inputContainer}>
-          <TextInput style={styles.input}
-          placeholder='User Name'
-          underlineColorAndroid='transparent' 
-          onChangeText={(userName) => {this.setState({userName})}} />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput style={styles.input}
-          placeholder='Password'
-          secureTextEntry={true}
-          underlineColorAndroid='transparent' 
-          onChangeText={(password) => {this.setState({password})}} />
-        </View>
-        <Button text="Sign In" />
-        <Text>{this.state.userName}</Text>
+          <Text>Login</Text>
+          <View style={styles.inputContainer}>
+            <TextInput style={styles.input}
+            placeholder='User Name'
+            underlineColorAndroid='transparent' 
+            onChangeText={(userName) => {this.setState({userName})}} />
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput style={styles.input}
+            placeholder='Password'
+            secureTextEntry={true}
+            underlineColorAndroid='transparent' 
+            onChangeText={(password) => {this.setState({password})}} />
+          </View>
+          <Button text="Sign In" onPressButton={() => this.handleUserLogin() }/>
       </View>
     )
   }

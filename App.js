@@ -1,8 +1,8 @@
-import React from 'react';
-import LoginScreen from './src/screens/LoginScreen';
+import React, { Component } from 'react';
+import AppNavigator from './src/navigations';
 
-export default class App extends React.Component {
+export default class App extends Component {
   render() {
-    return <LoginScreen />
+    return <AppNavigator />
   }
 }
