@@ -9,12 +9,16 @@ export default (props) => {
   const { text, onPressButton} = props;
   return(
     <TouchableHighlight style={styles.button} onPress={onPressButton}>
-      <Text style={{color: '#ffffff'}}>{text}</Text>
+      <Text style={styles.textContent}>{text}</Text>
     </TouchableHighlight>
   )
 }
 
 const styles = StyleSheet.create({
+  textContent: {
+    color: '#ffffff',
+    textTransform: 'uppercase' 
+  },
   button: {
     justifyContent: 'center',
     alignItems: 'center',
