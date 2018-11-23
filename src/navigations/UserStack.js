@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator, createDrawerNavigator, createBottomTabNavigator} from 'react-navigation';
 import HomeScreen from '../screens/HomeScreen';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { DrawerActions } from 'react-navigation-drawer';
 
 const drawerIcon = (navigation, icon) => (
@@ -37,7 +37,15 @@ const mainStack = createStackNavigator(
 );
 
 const tabStack = createBottomTabNavigator({
-  Home: {screen: mainStack}
+  Home: {
+    screen: mainStack,
+    navigationOptions: {
+      tabBarIcon: <MaterialCommunityIcons
+                    name="home"
+                    size={30}
+                  />
+    }
+  }
 })
 
 export default createDrawerNavigator({
