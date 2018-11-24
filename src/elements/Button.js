@@ -7,8 +7,9 @@ import {
 
 export default (props) => {
   const { text, onPressButton} = props;
+  const { elementStyles } = props;
   return(
-    <TouchableHighlight style={styles.button} onPress={onPressButton}>
+    <TouchableHighlight style={[styles.button, elementStyles]} onPress={onPressButton}>
       <Text style={styles.textContent}>{text}</Text>
     </TouchableHighlight>
   )
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
     minWidth: 300,
     backgroundColor: '#f39c12',
     height: 50,
-    borderRadius: 30
+    borderRadius: 30,
+    marginTop: 10
   }
 })

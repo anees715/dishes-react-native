@@ -16,6 +16,14 @@ export const loginUser =  async(userName, password) => {
   return {success: false};
 }
 
+const authenticateUser = async (user) => {
+  try {
+    await AsyncStorage.setItem('authentication', {success: true, user: user});
+  } catch (error) {
+    
+  }
+}
+
 export const authStatus = async() => {
   try {
     const authStatus = await AsyncStorage.getItem('authentication');
@@ -25,9 +33,11 @@ export const authStatus = async() => {
    }
 }
 
-const authenticateUser = async (user) => {
+
+export const currentUser = async () => {
   try {
-    await AsyncStorage.setItem('authentication', {success: true, user: user});
+    let authentication = await AsyncStorage.getItem('authentication');
+    return authentication.user
   } catch (error) {
     
   }
