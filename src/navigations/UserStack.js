@@ -1,8 +1,11 @@
 import React from 'react';
 import { createStackNavigator, createDrawerNavigator, createBottomTabNavigator} from 'react-navigation';
-import HomeScreen from '../screens/HomeScreen';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { DrawerActions } from 'react-navigation-drawer';
+
+import HomeScreen from '../screens/HomeScreen';
+import AddDishScreen from '../screens/AddDishScreen';
+
 
 const drawerIcon = (navigation, icon) => (
   <Entypo
@@ -20,7 +23,8 @@ const mainStack = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         headerLeft: drawerIcon(navigation, 'menu')
       })
-    }
+    },
+    AddDishScreen: AddDishScreen
   },
   {
     defaultNavigationOptions: {

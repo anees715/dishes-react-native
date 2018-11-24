@@ -1,15 +1,15 @@
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { View, StyleSheet, Text } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 const AddNewIcon = (props) => (
-  <View style={styles.buttonContainer}>
+  <TouchableOpacity style={styles.buttonContainer} onPress={props.onPressItem}>
     <MaterialCommunityIcons
       name="plus-outline"
       size={90}
       color="#efefef"
     />
     <Text style={styles.text}>Add New</Text>
-  </View>
+  </TouchableOpacity>
 )
 
 const styles = StyleSheet.create({
