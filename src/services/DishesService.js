@@ -3,26 +3,28 @@ import { currentUser } from "./AuthService";
 
 export const AddDish = async (dish) => {
   try {
-    let dishes = await findOrCreateStorage('dish')
+    let dishes = await AsyncStorage.getItem('dishes');
+    let newDishes = JSON.parse(dishes);
+    if( !newDishes ){
+      newDishes = []
+    }
     let user = await getCurrentUser();
-    dish['id'] =  user.id;
-    await AsyncStorage.setItem('dishes', dishes.contact());
+    dish['userId'] =  user.id;
+    newDishes.push(dish)
+    await AsyncStorage.setItem('dishes',JSON.stringify(newDishes));
     } catch(error) {
 
     }
   }
 
-const findOrCreateStorage = async (key) => {
+export const getAllDishes = async () => {
   try{
-    let record =  await AsyncStorage.getItem(key);
-    if (record != null) return record;
-    let storage = []
-    await AsyncStorage.setItem(key, storage);
-    return storage;
+    let value = await AsyncStorage.getItem('dishes');
+    return JSON.parse(value);
   } catch(error){
-    
+
   }
-}
+} 
 
 const getCurrentUser = async () => {
   return await currentUser()
