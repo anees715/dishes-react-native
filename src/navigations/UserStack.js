@@ -5,6 +5,7 @@ import { DrawerActions } from 'react-navigation-drawer';
 
 import HomeScreen from '../screens/HomeScreen';
 import AddDishScreen from '../screens/AddDishScreen';
+import DishesScreen from '../screens/DishesScreen';
 
 
 const drawerIcon = (navigation, icon) => (
@@ -46,6 +47,15 @@ const tabStack = createBottomTabNavigator({
     navigationOptions: {
       tabBarIcon: <MaterialCommunityIcons
                     name="home"
+                    size={30}
+                  />
+    }
+  },
+  Dishes: {
+    screen: DishesScreen,
+    navigationOptions: {
+      tabBarIcon: <MaterialCommunityIcons
+                    name="food-variant"
                     size={30}
                   />
     }
