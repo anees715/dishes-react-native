@@ -12,7 +12,7 @@ const CardList = (props) => {
             <View style={styles.separator}/>
           )
         }}
-        keyExtractor={({index})=>{
+        keyExtractor={(item, index)=>{
           return index.toString();
         }}
         renderItem={(item) => {
