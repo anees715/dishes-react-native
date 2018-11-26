@@ -17,49 +17,68 @@ const drawerIcon = (navigation, icon) => (
     onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
   />
 )
-const mainStack = createStackNavigator(
-  { 
-    HomeScreen: {
-      screen: HomeScreen,
-      navigationOptions: ({ navigation }) => ({
-        headerLeft: drawerIcon(navigation, 'menu')
-      })
+
+const navigationOption = {
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: '#f39c12',
     },
-    AddDishScreen: AddDishScreen
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      color: '#ffffff'
+    }
   },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: '#f39c12',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        color: '#ffffff'
-      }
-    },
+}
+
+const homeStack = createStackNavigator({
+  HomeScreen: {
+    screen: HomeScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: drawerIcon(navigation, 'menu')
+    })
+  },
+  AddDishScreen: AddDishScreen
+}, navigationOption);
+
+const dishStack = createStackNavigator({
+  DishScreen: {
+    screen: DishesScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: drawerIcon(navigation, 'menu')
+    })
   }
-);
+}, navigationOption);
 
 const tabStack = createBottomTabNavigator({
   Home: {
-    screen: mainStack,
+    screen: homeStack,
     navigationOptions: {
-      tabBarIcon: <MaterialCommunityIcons
+      tabBarIcon: ({tintColor}) => <MaterialCommunityIcons
                     name="home"
                     size={30}
+                    color={tintColor}
                   />
     }
   },
   Dishes: {
-    screen: DishesScreen,
+    screen: dishStack,
     navigationOptions: {
-      tabBarIcon: <MaterialCommunityIcons
+      tabBarIcon: ({tintColor}) => <MaterialCommunityIcons
                     name="food-variant"
                     size={30}
+                    color={tintColor}
                   />
     }
   }
+},{
+  tabBarOptions: {
+    activeTintColor: '#f39c12',
+    inactiveTintColor: '#ababab',
+    style: {
+      backgroundColor: '#f9f9f9',
+    },
+  },
 })
 
 export default createDrawerNavigator({

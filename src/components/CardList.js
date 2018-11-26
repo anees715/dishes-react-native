@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet } from 'react-native';
 import Card from '../elements/Card';
 
 const CardList = (props) => {
-  const { items } = props;
+  const { items, onPressButton } = props;
   return (
     <FlatList
         data={items}
@@ -17,7 +17,7 @@ const CardList = (props) => {
         }}
         renderItem={(item) => {
           return(
-            <Card item={item.item} />
+            <Card item={item.item} onPressButton={ onPressButton } />
           );
         }}/>
   );

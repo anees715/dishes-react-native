@@ -8,21 +8,21 @@ import {
 } from 'react-native';
 
 const Card = (props) => {
-  const { item } = props;
+  const { item, onPressButton } = props;
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={() => {}}>
+    <View >
+      <TouchableOpacity style={styles.container} onPress={() => onPressButton(item.id)}>
         {/* TODO - Show Image */}
-      </TouchableOpacity>
       <View style={styles.content}>
         <View style={styles.contentHeader}>
           <Text style={styles.name}>{item.name}</Text>
           <Text style={styles.votes}>
-            0 votes
+            {item.points} Points
           </Text>
         </View>
         <Text>{item.description}</Text>
       </View>
+      </TouchableOpacity>
     </View>
   );
 }
