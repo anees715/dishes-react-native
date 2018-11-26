@@ -1,12 +1,12 @@
 export const USERS = [
   {
     id: 1,
-    userName: "a",
-    password: "a"
+    userName: "anees",
+    password: "anees123"
   },
   {
     id: 2,
-    userName: "b",
-    password: "b"
+    userName: "ram",
+    password: "ram"
   }
 ]
