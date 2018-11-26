@@ -18,9 +18,10 @@ export const loginUser =  async(userName, password) => {
 
 const authenticateUser = async (user) => {
   try {
-    await AsyncStorage.setItem('authentication', {success: true, user: user});
+    const userData = {success: true, user: user}
+    await AsyncStorage.setItem('authentication', JSON.stringify(userData));
   } catch (error) {
-    
+    alert(error)
   }
 }
 
@@ -37,8 +38,9 @@ export const authStatus = async() => {
 export const currentUser = async () => {
   try {
     let authentication = await AsyncStorage.getItem('authentication');
+    authentication = JSON.parse(authentication);
     return authentication.user
   } catch (error) {
-    
+    alert("Auth"+error)
   }
 }

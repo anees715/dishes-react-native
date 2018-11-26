@@ -13,7 +13,7 @@ export default class LoginScreen extends Component{
     super(props);
     this.state = {
       userName: "",
-      password: ""
+      password: "",
     }
     this.handleUserLogin = this.handleUserLogin.bind(this);
   }
@@ -24,14 +24,14 @@ export default class LoginScreen extends Component{
       this.props.navigation.navigate('HomeScreen')
     }
     else{
-      alert("Fail")
+      alert("Invalid User Name or Password")
     }
   }
 
   render(){
     return(
       <View style={styles.container}>
-          <Text>Login</Text>
+          <Text style={styles.title}>LOGIN</Text>
           <View style={styles.inputContainer}>
             <TextInput style={styles.input}
             placeholder='User Name'
@@ -74,5 +74,10 @@ const styles = StyleSheet.create({
     marginLeft:16,
     borderBottomColor: '#FFFFFF',
     flex:1
+  },
+  title: {
+    fontFamily: 'Roboto-Bold',
+    fontSize: 50,
+    marginBottom: 40,
   }
 })

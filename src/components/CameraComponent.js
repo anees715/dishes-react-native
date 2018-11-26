@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, Dimensions, StyleSheet} from 'react-native';
+import { Text, View, TouchableOpacity, ImageBackground, Dimensions, StyleSheet} from 'react-native';
 import { Camera, Permissions } from 'expo';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default class CameraComponent extends Component {
   constructor(props){
@@ -40,14 +41,13 @@ export default class CameraComponent extends Component {
               type={this.state.type}
               ref={ (ref) => {this.camera = ref} }>
                 <View
-                  style={{
-                    flex: 1,
-                    backgroundColor: 'transparent',
-                    flexDirection: 'row',
-                  }}>
-                  <TouchableOpacity onPress={() => this.captureImage()}>
-                    <Text>Click</Text>
-                  </TouchableOpacity>
+                  style={styles.bottomContainer}>
+                  <MaterialCommunityIcons 
+                        name="circle-outline"
+                        size={80} 
+                        color="#ffffff"
+                        onPress={() => this.captureImage()} 
+                        style={styles.clickButton} />
                 </View>
             </Camera>
           </View>
@@ -56,21 +56,61 @@ export default class CameraComponent extends Component {
     }
 
   renderPreview(){
+    const { capturedImage } = this.state;
+    const { onImageSelected } = this.props;
     return(
       <View style={{flex: 1}}>
-        <Image source={{uri: this.state.capturedImage}} />
+        <ImageBackground source={{uri: capturedImage}} style={styles.image} resizeMode='cover'>
+          <View style={styles.bottomContainer}>
+            <View style={{flexDirection: 'row'}}>
+              <MaterialCommunityIcons
+                name="check-circle-outline"
+                size={80}
+                color="green"
+                onPress={() => onImageSelected(capturedImage)}
+              />
+              <MaterialCommunityIcons
+                name="close-circle-outline"
+                size={80}
+                color="red"
+                onPress={() => this.setState({isImagePreview: false})}
+              />
+            </View>
+          </View>
+        </ImageBackground>
       </View>
     )
   }
 
   render() {
     const { isImagePreview } = this.state;
-    if(isImagePreview){
-      return this.renderPreview();
-    }
-    else{
-      return this.renderCamera();
-    }
+    return(
+      <View style={{flex: 1}}>
+        {isImagePreview ? this.renderPreview() : this.renderCamera() }
+      </View>
+    )
   }
 }
 
+const styles = StyleSheet.create({
+  image: {
+    flex: 1,
+    width: null,
+    height: null
+  },
+  clickButton: {
+    position: 'absolute',
+    bottom: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 80
+  },
+  bottomContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'transparent',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: 20
+  }
+})
