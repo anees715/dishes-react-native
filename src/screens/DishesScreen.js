@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { getAllDishes } from '../services/DishesService';
 import CardList from '../components/CardList';
-import { View, TouchableOpacity, StyleSheet, Text} from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Text, Alert} from 'react-native';
 import ModalComponent from '../elements/ModalComponent';
-import { AddUserVote } from '../services/UserVotesService';
+import { AddUserVote, getCurrentUserVotes } from '../services/UserVotesService';
+import { NavigationEvents } from 'react-navigation';
 
 export default class DishesScreen extends Component {
   static navigationOptions = {
@@ -15,19 +16,25 @@ export default class DishesScreen extends Component {
       dishes: [],
       points: {1: 30, 2: 20, 3: 10 },
       showPointsModal: false,
-      selectedItem: ""
+      selectedItem: "",
+      currentUserVotes: {}
     }
     this.handleDishVoteClick = this.handleDishVoteClick.bind(this);
   }
   
-
-  async componentDidMount() {
+  async fetchData(){
     this.fetchDishes()
+    this.fetchCurrentUserVotes()
   }
 
   async fetchDishes(){
-    let dishes = await getAllDishes()
+    const dishes = await getAllDishes()
     !!dishes && this.setState({dishes: dishes})
+  }
+
+  async fetchCurrentUserVotes(){
+    const userVotes = getCurrentUserVotes();
+    !!userVotes && this.setState({currentUserVotes: userVotes})
   }
 
   handleDishVoteClick(id){
@@ -36,10 +43,27 @@ export default class DishesScreen extends Component {
 
   async setUserVote(point){
     this.setState({showPointsModal: false})
-    let addVote = await AddUserVote(this.state.selectedItem, point);
-    if (addVote.success){
-      this.fetchDishes()
+    const {currentUserVotes, selectedItem} = this.state;
+    console.log("uv" + JSON.stringify(currentUserVotes))
+    if(currentUserVotes && Object.keys(currentUserVotes).includes(selectedItem)){
+      Alert.alert(
+        `You have already voted ${point} for an item`,
+        `Overwrite it ?`,
+        [
+          {text: 'OK', onPress: () => this.saveTheVote(point)},
+        ]
+      )
+    }else{
+      this.saveTheVote(point)
     }
+  }
+
+  saveTheVote = async (point) => {
+    let addVote = await AddUserVote(this.state.selectedItem, point);
+      if (addVote.success){
+        this.fetchDishes();
+        this.fetchCurrentUserVotes();
+      }
   }
 
   renderDishPoints(){
@@ -65,14 +89,16 @@ export default class DishesScreen extends Component {
   }
 
   render() {
-    const { dishes } = this.state;
+    const { dishes, currentUserVotes } = this.state;
     return (
       <View style={styles.container}>
         <View style={{flex: 1, flexDirection: 'row'}}>
           <CardList items={dishes} 
             showButton 
             buttonTitle="Vote" 
-            onPressButton={ this.handleDishVoteClick } />
+            onPressButton={ this.handleDishVoteClick }
+            userVotes={currentUserVotes}
+            showVoteOption={true} />
         </View>
         <ModalComponent modalVisible={this.state.showPointsModal} 
             onRequestClose={() => this.setState({ showPointsModal: false})} 
@@ -81,6 +107,7 @@ export default class DishesScreen extends Component {
               alignItems: 'center',
               backgroundColor: 'transparent'
             }}/>
+         <NavigationEvents onDidFocus={this.fetchData.bind(this)} />
       </View>
     )
   }

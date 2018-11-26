@@ -26,7 +26,7 @@ export default class AddDishScreen extends Component {
 
   async handleAddNewDish(){
     await AddDish(this.state.dish)
-    alert("done")
+    this.props.navigation.navigate('HomeScreen')
   }
 
   toggleCamera(){

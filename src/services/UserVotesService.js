@@ -24,6 +24,33 @@ export const AddUserVote = async (dishId, point) => {
     }
   }
 
+  export const removeUserVote = async(dishId) => {
+    try {
+      let userPoints = await AsyncStorage.getItem('userPoints');
+      let newUserPoints = JSON.parse(userPoints);
+      if(newUserPoints){
+        let userId = await currentUser().id;
+        if (newUserPoints[userId] && newUserPoints[userId][dishId]){
+          await removeDishPoint(dishId, votePoints[newUserPoints[userId][dishId]])
+          delete[newUserPoints[userId][dishId]]
+        }
+      }
+
+    } catch (error) {
+      
+    }
+  }
+
+  const removeDishPoint = async (dishId, point) => {
+    try {
+      let dish = await getDish(dishId);
+      dish['points'] -= point;
+      return await updateDish(dishId, dish);
+    } catch (error) {
+      
+    }
+  }
+
   export const addDishPoints = async (dishId, point) => {
     try{
       let dish = await getDish(dishId);
@@ -34,4 +61,17 @@ export const AddUserVote = async (dishId, point) => {
       alert(error)
     }
     
+  }
+
+  export const getCurrentUserVotes = async () => {
+    try {
+      let userVotes = await AsyncStorage.getItem('userPoints');
+      userVotes = JSON.parse(userVotes)
+      if(userVotes){
+        const user = await currentUser()
+        return userVotes[user.id]
+      }
+    } catch (error) {
+      alert(error)
+    }
   }

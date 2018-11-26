@@ -26,9 +26,10 @@ const authenticateUser = async (user) => {
 }
 
 export const authStatus = async() => {
+  AsyncStorage.clear();
   try {
     const authStatus = await AsyncStorage.getItem('authentication');
-    return !!authstatus
+    return !!authStatus
    } catch (error) {
      
    }
@@ -39,8 +40,9 @@ export const currentUser = async () => {
   try {
     let authentication = await AsyncStorage.getItem('authentication');
     authentication = JSON.parse(authentication);
+    console.log(authentication)
     return authentication.user
   } catch (error) {
-    alert("Auth"+error)
+    alert("AuthError"+error)
   }
 }
