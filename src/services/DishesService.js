@@ -10,7 +10,7 @@ export const AddDish = async (dish) => {
     }
     let user = await getCurrentUser();
     dish['id'] = await setRecordId(newDishes);
-    dish['userId'] =  1; //user.id
+    dish['userId'] =  user.id;
     dish['points'] = 0;
     newDishes.push(dish)
     await AsyncStorage.setItem('dishes', JSON.stringify(newDishes));
@@ -53,7 +53,7 @@ export const userDishes = async () => {
     let dishes = await AsyncStorage.getItem('dishes');
     if(!!dishes){
       dishes = JSON.parse(dishes);
-      return dishes.map((dish) => dish.userId == user.id)
+      return dishes.filter((dish) => dish.userId == user.id);
     }
   } catch (error) {
     alert(error)
